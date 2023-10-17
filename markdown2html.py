@@ -25,16 +25,18 @@ if __name__ == '__main__':
         print(f"Missing {markdown_file}", file=sys.stderr)
         sys.exit(1)
 
-  # Markdown headings to HTML tags
+    # Markdown headings to HTML tags
     with open("README.md", mode="r") as f:
         content = f.read()
 
     # I used regex to look for the '#'
     markdown_headings = re.compile(r"^(#{1,6})\s+(.*)$", flags=re.MULTILINE)
 
-    # I used re.sub with a lambda function to replace all Markdown headings with  HTML headings
+    # I used re.sub with a lambda function to
+    # replace all Markdown headings with  HTML headings
     html_content = markdown_headings.sub(
-        lambda match: f"<h{len(match.group(1))}>{match.group(2)}</h{len(match.group(1))}>",
+        lambda match: f"<h{len(match.group(1))}>\
+        {match.group(2)}</h{len(match.group(1))}>",
         content,
     )
     # Write the HTML content to the output file
