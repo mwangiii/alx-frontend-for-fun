@@ -26,10 +26,10 @@ if __name__ == '__main__':
         print(f"Missing {markdown_file}", file=sys.stderr)
         sys.exit(1)
 
-    # Markdown headings to HTML tags
     with open(markdown_file, mode="r") as f:
         content = f.read()
 
+    # MARKDOWN TO HTML HEADINGS
     # I used regex to look for the '#'
     markdown_headings = re.compile(r"^(#{1,6})\s+(.*)$", flags=re.MULTILINE)
 
@@ -39,6 +39,15 @@ if __name__ == '__main__':
         lambda m: f"<h{len(m.group(1))}>{m.group(2)}</h{len(m.group(1))}>",
         content
         )
+    
+    # MARKDOWN TO HTML LINKS
+    # I used regex to look for the '-'
+    unordered_listing = re.compile(r"^\s*-\s+(.*)$", flags=re.MULTILINE)
+    html_content = unordered_listing.sub(
+        lambda m: f"<ul>\n  <li>{m.group(1)}</li>\n</ul>", content
+        )
+
+    
     # Write the HTML content to the output file
     with open(output_file_name, mode="w") as f:
         f.write(html_content)
