@@ -27,7 +27,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     # Markdown headings to HTML tags
-    with open("README.md", mode="r") as f:
+    with open(markdown_file, mode="r") as f:
         content = f.read()
 
     # I used regex to look for the '#'
