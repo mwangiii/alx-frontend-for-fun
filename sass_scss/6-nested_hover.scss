@@ -1,9 +1,9 @@
-// change btn color on hover
+// File: 6-nested_hover.scss
 
-.button {
+button {
   color: #FF0000;
 
-  &:hover{
-    color:#00FF00;
+  &:hover {
+    color: #00FF00;
   }
 }
