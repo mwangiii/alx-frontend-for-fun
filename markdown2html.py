@@ -1,15 +1,8 @@
 #!/usr/bin/python3
 
-""" a script markdown2html.py that takes an argument 2 strings:
-
-    First argument is the name of the Markdown file
-    Second argument is the output file name
-"""
-
 import sys
 import os.path
 import re
-
 
 if __name__ == '__main__':
     arg = sys.argv
@@ -30,22 +23,24 @@ if __name__ == '__main__':
         content = f.read()
 
     # MARKDOWN TO HTML HEADINGS
-    # I used regex to look for the '#'
     markdown_headings = re.compile(r"^(#{1,6})\s+(.*)$", flags=re.MULTILINE)
-
-    # I used re.sub with a lambda function to ...
-    # ..... replace all Markdown headings with  HTML headings
-    html_content = markdown_headings.sub(
+    html_headings = markdown_headings.sub(
         lambda m: f"<h{len(m.group(1))}>{m.group(2)}</h{len(m.group(1))}>",
         content
-        )
+    )
 
-    # MARKDOWN TO HTML LINKS
-    # I used regex to look for the '-'
+    # MARKDOWN TO HTML UNORDERED LISTS
     unordered_listing = re.compile(r"^\s*-\s+(.*)$", flags=re.MULTILINE)
-    html_content = unordered_listing.sub(
-        lambda m: f"<ul>\n  <li>{m.group(1)}</li>\n</ul>", content
-        )
+    matches = unordered_listing.findall(content)
+    html_unordered_lists = ""
+    if matches:
+        html_unordered_lists = "<ul>\n"
+        for match in matches:
+            html_unordered_lists += f"    <li>{match}</li>\n"
+        html_unordered_lists += "</ul>"
+
+    # Combine HTML content from both processes
+    html_content = html_headings + '\n' + html_unordered_lists
 
     # Write the HTML content to the output file
     with open(output_file_name, mode="w") as f:
